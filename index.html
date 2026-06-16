@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Board - Local Note Taking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Dashboard View -->
+    <div id="dashboard" class="view active">
+        <header>
+            <h1>📋 Project Board</h1>
+            <button id="newProjectBtn" class="btn-primary">+ New Project</button>
+        </header>
+        
+        <div id="projectsGrid" class="projects-grid">
+            <!-- Projects will be rendered here -->
+        </div>
+        
+        <div id="emptyState" class="empty-state">
+            <p>No projects yet. Create your first project!</p>
+        </div>
+    </div>
+
+    <!-- Whiteboard View -->
+    <div id="whiteboard" class="view">
+        <header class="whiteboard-header">
+            <button id="backBtn" class="btn-secondary">← Back</button>
+            <h2 id="projectTitle">Project Name</h2>
+            <div class="toolbar">
+                <button id="addNoteBtn" class="btn-tool" title="Add Sticky Note">📝 Note</button>
+                <button id="addImageBtn" class="btn-tool" title="Add Image">🖼️ Image</button>
+                <button id="connectModeBtn" class="btn-tool" title="Connect Notes">🔗 Connect</button>
+            </div>
+        </header>
+        
+        <div id="canvas" class="canvas">
+            <!-- Notes and connections will be rendered here -->
+        </div>
+    </div>
+
+    <!-- Create/Edit Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Create New Project</h3>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" id="projectName" required placeholder="Enter project name">
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" rows="4" placeholder="Enter project description"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hidden file input for images -->
+    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+
+    <script src="app.js"></script>
+</body>
+</html>
