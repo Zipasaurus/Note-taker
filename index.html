@@ -8,61 +8,105 @@
 </head>
 <body>
     <!-- Dashboard View -->
-    <div id="dashboard" class="view active">
+    <div id="dashboard-view">
         <header>
             <h1>📋 Project Board</h1>
-            <button id="newProjectBtn" class="btn-primary">+ New Project</button>
+            <button id="create-project-btn" class="primary-btn">+ New Project</button>
         </header>
-        
-        <div id="projectsGrid" class="projects-grid">
-            <!-- Projects will be rendered here -->
-        </div>
-        
-        <div id="emptyState" class="empty-state">
-            <p>No projects yet. Create your first project!</p>
-        </div>
+        <div id="projects-grid" class="projects-grid"></div>
     </div>
 
     <!-- Whiteboard View -->
-    <div id="whiteboard" class="view">
+    <div id="whiteboard-view" class="hidden">
         <header class="whiteboard-header">
-            <button id="backBtn" class="btn-secondary">← Back</button>
-            <h2 id="projectTitle">Project Name</h2>
+            <button id="back-btn" class="secondary-btn">← Back</button>
+            <h2 id="project-title-display">Project Name</h2>
             <div class="toolbar">
-                <button id="addNoteBtn" class="btn-tool" title="Add Sticky Note">📝 Note</button>
-                <button id="addImageBtn" class="btn-tool" title="Add Image">🖼️ Image</button>
-                <button id="connectModeBtn" class="btn-tool" title="Connect Notes">🔗 Connect</button>
+                <button id="add-note-btn" title="Add Sticky Note">📝 Note</button>
+                <button id="add-image-btn" title="Add Image">🖼️ Image</button>
+                <input type="file" id="image-upload" accept="image/*" class="hidden">
+                <button id="connect-mode-btn" title="Connect Nodes">🔗 Connect</button>
+                <button id="bg-settings-btn" title="Background Settings">🎨 Background</button>
+                <button id="undo-btn" title="Undo">↩️ Undo</button>
+                <button id="redo-btn" title="Redo">↪️ Redo</button>
+                <button id="export-btn" title="Export Project">💾 Export</button>
+                <input type="file" id="import-file" accept=".json" class="hidden">
+                <button id="import-btn" title="Import Project">📂 Import</button>
             </div>
         </header>
         
-        <div id="canvas" class="canvas">
-            <!-- Notes and connections will be rendered here -->
+        <div id="canvas-container">
+            <div id="canvas">
+                <div id="canvas-content"></div>
+                <svg id="connections-layer"></svg>
+            </div>
+        </div>
+
+        <!-- Formatting Toolbar (appears when text selected) -->
+        <div id="format-toolbar" class="hidden">
+            <label>Font Size:
+                <select id="font-size-select">
+                    <option value="12">12px</option>
+                    <option value="14">14px</option>
+                    <option value="16" selected>16px</option>
+                    <option value="18">18px</option>
+                    <option value="20">20px</option>
+                    <option value="24">24px</option>
+                    <option value="28">28px</option>
+                    <option value="32">32px</option>
+                </select>
+            </label>
+            <label>Color:
+                <input type="color" id="text-color-picker" value="#000000">
+            </label>
+            <label>Note Color:
+                <input type="color" id="note-color-picker" value="#fef3c7">
+            </label>
+            <label>Image Position:
+                <select id="image-position-select">
+                    <option value="top">Image Top</option>
+                    <option value="bottom">Image Bottom</option>
+                </select>
+            </label>
         </div>
     </div>
 
     <!-- Create/Edit Project Modal -->
-    <div id="projectModal" class="modal">
+    <div id="project-modal" class="modal hidden">
         <div class="modal-content">
-            <h3 id="modalTitle">Create New Project</h3>
-            <form id="projectForm">
-                <div class="form-group">
-                    <label for="projectName">Project Name</label>
-                    <input type="text" id="projectName" required placeholder="Enter project name">
-                </div>
-                <div class="form-group">
-                    <label for="projectDescription">Description</label>
-                    <textarea id="projectDescription" rows="4" placeholder="Enter project description"></textarea>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" id="cancelBtn" class="btn-secondary">Cancel</button>
-                    <button type="submit" class="btn-primary">Save</button>
-                </div>
-            </form>
+            <h3 id="modal-title">Create New Project</h3>
+            <input type="text" id="project-name-input" placeholder="Project Name" required>
+            <textarea id="project-desc-input" placeholder="Project Description" rows="4"></textarea>
+            <div class="modal-buttons">
+                <button id="cancel-project-btn" class="secondary-btn">Cancel</button>
+                <button id="save-project-btn" class="primary-btn">Save</button>
+            </div>
         </div>
     </div>
 
-    <!-- Hidden file input for images -->
-    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+    <!-- Background Settings Modal -->
+    <div id="bg-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Background Settings</h3>
+            <div class="bg-options">
+                <h4>Preset Backgrounds</h4>
+                <div class="preset-grids">
+                    <button class="bg-preset" data-bg="none">None</button>
+                    <button class="bg-preset" data-bg="dots">Dots</button>
+                    <button class="bg-preset" data-bg="grid">Grid</button>
+                    <button class="bg-preset" data-bg="lines">Lines</button>
+                    <button class="bg-preset" data-bg="gradient1">Gradient 1</button>
+                    <button class="bg-preset" data-bg="gradient2">Gradient 2</button>
+                    <button class="bg-preset" data-bg="gradient3">Gradient 3</button>
+                    <button class="bg-preset" data-bg="dark">Dark</button>
+                </div>
+                <h4>Custom Image</h4>
+                <input type="file" id="bg-upload" accept="image/*">
+                <button id="clear-bg-btn" class="secondary-btn">Clear Custom BG</button>
+            </div>
+            <button id="close-bg-btn" class="primary-btn">Close</button>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>

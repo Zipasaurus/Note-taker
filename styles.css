@@ -7,47 +7,76 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
     background: #f5f5f5;
-    color: #333;
-    overflow: hidden;
+    min-height: 100vh;
 }
 
-.view {
-    display: none;
-    height: 100vh;
-    width: 100vw;
-}
-
-.view.active {
-    display: block;
+.hidden {
+    display: none !important;
 }
 
 /* Dashboard Styles */
-#dashboard header {
-    background: #2c3e50;
-    color: white;
-    padding: 20px 40px;
+#dashboard-view {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+#dashboard-view header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
+}
+
+#dashboard-view h1 {
+    color: #333;
+    font-size: 2rem;
+}
+
+.primary-btn {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.primary-btn:hover {
+    background: #4338ca;
+}
+
+.secondary-btn {
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.secondary-btn:hover {
+    background: #d1d5db;
 }
 
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 40px;
-    max-height: calc(100vh - 80px);
-    overflow-y: auto;
+    gap: 1.5rem;
 }
 
 .project-card {
     background: white;
-    border-radius: 8px;
-    padding: 20px;
+    border-radius: 12px;
+    padding: 1.5rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     cursor: pointer;
-    position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
 }
 
 .project-card:hover {
@@ -56,253 +85,465 @@ body {
 }
 
 .project-card h3 {
-    margin-bottom: 10px;
-    color: #2c3e50;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
 }
 
 .project-card p {
-    color: #666;
-    font-size: 14px;
+    color: #6b7280;
+    font-size: 0.9rem;
     line-height: 1.5;
 }
 
-.edit-btn {
+.project-card .edit-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #3498db;
-    color: white;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
     border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
     cursor: pointer;
-    font-size: 12px;
-    opacity: 0;
+    font-size: 1.2rem;
+    opacity: 0.6;
     transition: opacity 0.2s;
+    padding: 0.25rem;
 }
 
-.project-card:hover .edit-btn {
+.project-card .edit-btn:hover {
     opacity: 1;
 }
 
-.empty-state {
-    text-align: center;
-    padding: 100px 20px;
-    color: #999;
-    font-size: 18px;
+.project-card .delete-btn {
+    position: absolute;
+    top: 1rem;
+    right: 3rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    padding: 0.25rem;
+    color: #ef4444;
+}
+
+.project-card .delete-btn:hover {
+    opacity: 1;
 }
 
 /* Whiteboard Styles */
+#whiteboard-view {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .whiteboard-header {
-    background: #34495e;
-    color: white;
-    padding: 15px 20px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    flex-wrap: wrap;
 }
 
 .whiteboard-header h2 {
-    flex: 1;
+    font-size: 1.25rem;
+    color: #374151;
+    margin: 0;
 }
 
 .toolbar {
     display: flex;
-    gap: 10px;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-wrap: wrap;
 }
 
-.canvas {
+.toolbar button {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.toolbar button:hover {
+    background: #e5e7eb;
+}
+
+.toolbar button.active {
+    background: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+}
+
+#canvas-container {
+    flex: 1;
+    overflow: hidden;
     position: relative;
+}
+
+#canvas {
     width: 100%;
-    height: calc(100vh - 70px);
-    background: #fff;
+    height: 100%;
+    position: relative;
     overflow: auto;
-    background-image: 
-        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
     background-size: 20px 20px;
 }
 
-/* Sticky Note Styles */
-.note {
+#canvas-content {
+    position: relative;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/* Connection Nodes on Notes */
+.connection-nodes {
     position: absolute;
-    width: 200px;
+    display: none;
+    z-index: 100;
+}
+
+.note-wrapper.connect-mode .connection-nodes,
+.image-wrapper.connect-mode .connection-nodes {
+    display: block;
+}
+
+.connection-node {
+    width: 12px;
+    height: 12px;
+    background: #4f46e5;
+    border: 2px solid white;
+    border-radius: 50%;
+    position: absolute;
+    cursor: crosshair;
+    transition: transform 0.15s;
+    z-index: 101;
+}
+
+.connection-node:hover {
+    transform: scale(1.3);
+    background: #4338ca;
+}
+
+.connection-node.top { top: -6px; left: 50%; transform: translateX(-50%); }
+.connection-node.bottom { bottom: -6px; left: 50%; transform: translateX(-50%); }
+.connection-node.left { left: -6px; top: 50%; transform: translateY(-50%); }
+.connection-node.right { right: -6px; top: 50%; transform: translateY(-50%); }
+
+.connection-node:hover {
+    transform: translateX(-50%) scale(1.3);
+}
+.connection-node.bottom:hover {
+    transform: translateX(-50%) scale(1.3);
+}
+.connection-node.left:hover {
+    transform: translateY(-50%) scale(1.3);
+}
+.connection-node.right:hover {
+    transform: translateY(-50%) scale(1.3);
+}
+
+/* Sticky Notes */
+.note-wrapper {
+    position: absolute;
+    min-width: 200px;
     min-height: 150px;
-    background: #ffeb3b;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    padding: 10px;
+    background: #fef3c7;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     cursor: move;
     user-select: none;
 }
 
-.note.selected {
-    outline: 2px solid #3498db;
+.note-wrapper.selected {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
 }
 
-.note textarea {
-    width: 100%;
+.note-content {
+    padding: 0.75rem;
     height: 100%;
-    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+}
+
+.note-text {
+    flex: 1;
     border: none;
     background: transparent;
     resize: none;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 16px;
+    line-height: 1.5;
     outline: none;
+    user-select: text;
 }
 
-.note img {
+.note-image {
     max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
     border-radius: 4px;
-    margin-top: 10px;
+    margin: 0.5rem 0;
 }
 
-.note-delete {
+.note-image.position-top {
+    order: -1;
+}
+
+.note-image.position-bottom {
+    order: 1;
+}
+
+.resize-handle {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    background: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.2s;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    cursor: nwse-resize;
+    background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.3) 50%);
+    border-radius: 0 0 8px 0;
 }
 
-.note:hover .note-delete {
-    opacity: 1;
+/* Image Wrapper */
+.image-wrapper {
+    position: absolute;
+    min-width: 150px;
+    min-height: 150px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    cursor: move;
+    user-select: none;
 }
 
-/* SVG Connections */
-.connections-svg {
+.image-wrapper.selected {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+/* SVG Connections Layer */
+#connections-layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 0;
+    z-index: 50;
 }
 
-.connection-line {
-    stroke: #3498db;
+#connections-layer line,
+#connections-layer path {
+    stroke: #4f46e5;
     stroke-width: 2;
     fill: none;
+    pointer-events: stroke;
+    cursor: pointer;
+}
+
+#connections-layer line:hover,
+#connections-layer path:hover {
+    stroke: #ef4444;
+    stroke-width: 3;
+}
+
+/* Format Toolbar */
+#format-toolbar {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    z-index: 1000;
+}
+
+#format-toolbar label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #374151;
+}
+
+#format-toolbar select,
+#format-toolbar input[type="color"] {
+    padding: 0.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#format-toolbar input[type="color"] {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
 }
 
 /* Modal Styles */
 .modal {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.5);
-    z-index: 1000;
+    display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.modal.active {
-    display: flex;
+    z-index: 2000;
 }
 
 .modal-content {
     background: white;
-    padding: 30px;
-    border-radius: 8px;
-    width: 100%;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
     max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
 }
 
 .modal-content h3 {
-    margin-bottom: 20px;
-    color: #2c3e50;
+    margin-bottom: 1rem;
+    color: #1f2937;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #555;
-    font-weight: 500;
-}
-
-.form-group input,
-.form-group textarea {
+.modal-content input[type="text"],
+.modal-content textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin-bottom: 1rem;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 1rem;
 }
 
-.form-group textarea {
+.modal-content textarea {
     resize: vertical;
 }
 
-.modal-actions {
+.modal-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 0.5rem;
 }
 
-/* Button Styles */
-.btn-primary {
-    background: #3498db;
+/* Background Options */
+.bg-options h4 {
+    margin: 1rem 0 0.5rem;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.preset-grids {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.bg-preset {
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.bg-preset:hover {
+    border-color: #4f46e5;
+}
+
+.bg-preset.active {
+    border-color: #4f46e5;
+    background: #eef2ff;
+}
+
+#bg-upload {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+/* Background Presets */
+.bg-none { background: #f5f5f5 !important; }
+.bg-dots { 
+    background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+.bg-grid {
+    background-image: 
+        linear-gradient(#e5e7eb 1px, transparent 1px),
+        linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+.bg-lines {
+    background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+.bg-gradient1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.bg-gradient2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+.bg-gradient3 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+.bg-dark {
+    background: #1f2937;
+}
+
+/* Delete button on notes */
+.delete-note-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: #ef4444;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
+    font-size: 12px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 102;
 }
 
-.btn-primary:hover {
-    background: #2980b9;
+.note-wrapper:hover .delete-note-btn,
+.image-wrapper:hover .delete-note-btn {
+    display: flex;
 }
 
-.btn-secondary {
-    background: #95a5a6;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
-}
-
-.btn-secondary:hover {
-    background: #7f8c8d;
-}
-
-.btn-tool {
-    background: #3498db;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background 0.2s;
-}
-
-.btn-tool:hover {
-    background: #2980b9;
-}
-
-.btn-tool.active {
-    background: #e74c3c;
+.delete-note-btn:hover {
+    background: #dc2626;
 }
