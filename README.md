@@ -1,4 +1,3 @@
-Here is a comprehensive, professional, and detailed `README.md` file tailored to your app. You can copy and paste this directly into your `README.md` file.
 
 ***
 
