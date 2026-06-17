@@ -20,19 +20,6 @@
             --text-secondary: #374151;
         }
 
-        [data-theme="dark"] {
-            --bg-color: #1a1a2e;
-            --card-bg: #16213e;
-            --primary: #6ab0ff;
-            --text: #e8e8e8;
-            --text-muted: #b0b0b0;
-            --toolbar-bg: #0f3460;
-            --border-color: #1a4a7a;
-            --canvas-bg: #0f3460;
-            --canvas-grid: radial-gradient(#536878 0.8px, transparent 0.8px), radial-gradient(#536878 0.8px, #0f3460 0.8px);
-            --shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text); overflow: hidden; height: 100vh; transition: background-color 0.3s, color 0.3s; }
 
@@ -41,11 +28,6 @@
         .bg-graph { background-color: var(--canvas-bg); background-image: linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px); background-size: 20px 20px; }
         .bg-blank { background-color: var(--canvas-bg); background-image: none; }
         .bg-live { 
-            background: linear-gradient(-45deg, var(--canvas-bg), #2c3e50, #1a1a2e, var(--canvas-bg));
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        [data-theme="light"] .bg-live {
             background: linear-gradient(-45deg, #e5e5f7, #a1c4fd, #c2e9fb, #e5e5f7);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -192,9 +174,6 @@
             padding: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        [data-theme="dark"] .group-box {
-            background: rgba(106, 176, 255, 0.15);
-        }
         
         .sticky-note, .image-el { z-index: 10; }
         
@@ -300,7 +279,6 @@
 
         #image-input { display: none; }
 
- 
 /* --- Radio Player --- */
 .radio-player {
     position: fixed;
@@ -518,14 +496,6 @@
     <div class="modal-overlay" id="settings-modal">
         <div class="modal">
             <h2>App Settings</h2>
-            
-            <div class="setting-row">
-                <label>Theme</label>
-                <select id="setting-theme" onchange="applySettings()">
-                    <option value="light">Light Mode</option>
-                    <option value="dark">Dark Mode</option>
-                </select>
-            </div>
 
             <div class="setting-row">
                 <label>Background Style</label>
@@ -533,11 +503,9 @@
                     <option value="bg-dot">Dot Grid (Default)</option>
                     <option value="bg-graph">Graph Paper</option>
                     <option value="bg-blank">Blank</option>
-                    <option value="bg-live">Live Animated</option>
                     <option value="bg-falling-stars">✨ Falling Stars</option>
-                    <option value="bg-shooting-stars">🌠 Shooting Stars</option>
-                    <option value="bg-animated-pattern"> Animated Patterns</option>
-                </select>
+                    <option value="bg-shooting-stars">✨ Star Field</option>
+                                </select>
             </div>
 
             <div class="modal-actions">
@@ -605,8 +573,7 @@
         </div>
     </div>
 
-    <!-- NEW: Radio Player -->
-   <!-- Radio Player -->
+    <!-- Radio Player -->
 <div id="radio-player" class="radio-player">
     <!-- Click this EQ graph to expand/collapse -->
     <div class="radio-eq" onclick="toggleRadioExpand()" title="Expand/Collapse Radio">
@@ -686,7 +653,6 @@
 
         // --- 3. Settings Management ---
         let appSettings = {
-            theme: 'light',
             background: 'bg-dot'
         };
 
@@ -695,18 +661,14 @@
             if (saved) {
                 appSettings = JSON.parse(saved);
             }
-            document.getElementById('setting-theme').value = appSettings.theme;
             document.getElementById('setting-bg').value = appSettings.background;
             applySettings();
             loadCustomColours();
         }
 
         function applySettings() {
-            appSettings.theme = document.getElementById('setting-theme').value;
             appSettings.background = document.getElementById('setting-bg').value;
             localStorage.setItem('wb_settings', JSON.stringify(appSettings));
-
-            document.documentElement.setAttribute('data-theme', appSettings.theme);
             
             const wb = document.getElementById('whiteboard');
             wb.className = '';
@@ -1489,7 +1451,7 @@ radioAudio.addEventListener('pause', () => {
 // Initialize volume on load
 radioAudio.volume = 0.5;
 
-// --- ADD THIS BACK ---
+// --- Initialize App ---
 window.onload = () => {
     initDB();
     loadSettings();
